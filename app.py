@@ -3,7 +3,7 @@ from src.logger import setup_logger
 from src.storage import Storage
 from src.service import process_order
 
-def main():
+def main(:
     logger = setup_logger()
     storage = Storage()
     print(f"Maintenance Lab v{__version__}")
