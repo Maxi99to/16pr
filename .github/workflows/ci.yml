@@ -5,15 +5,12 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
-
 jobs:
-  build:  # или tests — зависит от вашего текущего названия
+  build:
     runs-on: ubuntu-latest
     steps:
-      # ... существующие шаги (checkout, setup Python, install deps, run tests)
 
-  package:  # новый job — добавляем сюда
-    needs: build  # указываем зависимость от job с тестами
+  package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
