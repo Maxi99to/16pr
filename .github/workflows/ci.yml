@@ -1,22 +1,30 @@
-name: CI
+name: Python CI
 
 on:
   push:
+    branches: [ master, main ]
   pull_request:
+    branches: [ master, main ]
 
 jobs:
-  tests:
+  build:  # или tests — зависит от вашего текущего названия
     runs-on: ubuntu-latest
+    steps:
+      # ... существующие шаги (checkout, setup Python, install deps, run tests)
 
+  package:  # новый job — добавляем сюда
+    needs: build  # указываем зависимость от job с тестами
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Create build
+        run: |
+          mkdir build
+          cp -r src app.py requirements.txt build/
+          cd build && zip -r app.zip .
+
+      - uses: actions/upload-artifact@v4
         with:
-          python-version: "3.11"
-
-      - run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - run: pytest -q
+          name: app-build
+          path: build/app.zip
